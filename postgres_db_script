@@ -1,0 +1,33 @@
+create schema if not exists openapi authorization postgres;
+
+drop table if exists openapi.service;
+
+create table openapi.service(
+    Id SERIAL,
+    Name varchar not null CONSTRAINT service_name_key UNIQUE,
+    ServiceUrls varchar,
+    Status int not null,
+    JsonData varchar,
+    Created timestamp not null,
+    CreatedBy varchar not null,
+    Modified timestamp,
+    ModifiedBy varchar,
+    Deleted timestamp,
+    DeletedBy varchar,
+    IsDelete bool default false not null
+);
+
+drop table if exists openapi.schema;
+
+create table openapi.schema(
+    Id SERIAL,
+    JsonData varchar not null,
+    Services int not null,
+    Created timestamp not null,
+    CreatedBy varchar not null,
+    Modified timestamp,
+    ModifiedBy varchar,
+    Deleted timestamp,
+    DeletedBy varchar,
+    IsDelete bool default false not null
+);
