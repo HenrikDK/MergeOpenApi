@@ -7,7 +7,8 @@ create table openapi.service(
     Name varchar not null CONSTRAINT service_name_key UNIQUE,
     ServiceUrls varchar,
     Status int not null,
-    JsonData varchar,
+    JsonData text,
+    Retry int not null default 0,
     Created timestamp not null,
     CreatedBy varchar not null,
     Modified timestamp,
@@ -21,7 +22,7 @@ drop table if exists openapi.schema;
 
 create table openapi.schema(
     Id SERIAL,
-    JsonData varchar not null,
+    JsonData text not null,
     Services int not null,
     Created timestamp not null,
     CreatedBy varchar not null,
