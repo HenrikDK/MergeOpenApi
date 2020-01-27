@@ -16,6 +16,8 @@ namespace MergeOpenApi.Ui.Infrastructure
                 
                 x.ExcludeType<ApiRegistry>();
             });
+
+            For<IConnectionFactory>().Use<ConnectionFactory>().Singleton();
         }
     }
 }
