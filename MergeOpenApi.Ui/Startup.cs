@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace MergeOpenApi.Ui
 {
@@ -47,8 +48,9 @@ namespace MergeOpenApi.Ui
             {
                 x.RoutePrefix = "";
                 x.SwaggerEndpoint("/swagger.json", "MergeOpenApi Api v1");
-                x.ConfigObject.DefaultModelsExpandDepth = -1;
                 x.ConfigObject.AdditionalItems["tagsSorter"] = "alpha";
+                x.ConfigObject.DefaultModelsExpandDepth = -1;
+                x.DocExpansion(DocExpansion.None);
             });
 
             app.UseRouting();
