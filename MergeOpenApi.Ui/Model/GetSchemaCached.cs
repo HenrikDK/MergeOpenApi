@@ -1,6 +1,4 @@
 using System;
-using Flurl;
-using Flurl.Http;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MergeOpenApi.Ui.Model
@@ -13,10 +11,12 @@ namespace MergeOpenApi.Ui.Model
     public class GetSchemaCached : IGetSchemaCached
     {
         private readonly IMemoryCache _cache;
+        private readonly IGetSchema _getSchema;
 
-        public GetSchemaCached(IMemoryCache cache)
+        public GetSchemaCached(IMemoryCache cache, IGetSchema getSchema)
         {
             _cache = cache;
+            _getSchema = getSchema;
         }
 
         public string Execute()
@@ -24,19 +24,8 @@ namespace MergeOpenApi.Ui.Model
             return _cache.GetOrCreate("json-schema", x =>
             {
                 x.SlidingExpiration = TimeSpan.FromMinutes(2);
-                return GetSchemaJson();
+                return _getSchema.Execute();
             });
-        }
-
-        private static string GetSchemaJson()
-        {
-            var url = @"http://localhost:13000";
-
-            var json = url
-                .AppendPathSegment("/merged")
-                .GetStringAsync().Result;
-
-            return json;
         }
     }
 }
