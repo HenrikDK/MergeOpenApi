@@ -3,6 +3,7 @@ using Lamar;
 using MergeOpenApi.Infrastructure;
 using MergeOpenApi.Model;
 using MergeOpenApi.Model.Commands;
+using MergeOpenApi.Model.Enums;
 using NUnit.Framework;
 
 namespace MergeOpenApi.Test.IntegrationTests

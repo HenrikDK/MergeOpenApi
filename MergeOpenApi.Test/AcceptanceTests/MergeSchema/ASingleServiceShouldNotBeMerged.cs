@@ -6,6 +6,7 @@ using MergeOpenApi.Merge;
 using MergeOpenApi.Model;
 using MergeOpenApi.Model.Cache;
 using MergeOpenApi.Model.Commands;
+using MergeOpenApi.Model.Enums;
 using MergeOpenApi.Model.Queries;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
