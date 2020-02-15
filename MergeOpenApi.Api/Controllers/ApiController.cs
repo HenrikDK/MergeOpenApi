@@ -6,12 +6,10 @@ namespace MergeOpenApi.Api.Controllers
     [ApiController]
     public class ApiController : ControllerBase
     {
-        private readonly IGetMergedSchema _getMergedSchema;
         private readonly ISaveServiceDeployment _saveServiceDeployment;
 
-        public ApiController(IGetMergedSchema getMergedSchema, ISaveServiceDeployment saveServiceDeployment)
+        public ApiController(ISaveServiceDeployment saveServiceDeployment)
         {
-            _getMergedSchema = getMergedSchema;
             _saveServiceDeployment = saveServiceDeployment;
         }
 
@@ -37,23 +35,6 @@ namespace MergeOpenApi.Api.Controllers
             _saveServiceDeployment.Execute(serviceName, urls);
             
             return Ok();
-        }
-
-        /// <summary>
-        /// Get the current merged schema
-        /// </summary>
-        /// <returns>merged Open Api document</returns>
-        [HttpGet("/merged")]
-        public ActionResult<string> Get()
-        {
-            var json = _getMergedSchema.Execute();
-
-            if (json == null)
-            {
-                return NotFound();
-            }
-            
-            return Ok(json);
         }
     }
 }
