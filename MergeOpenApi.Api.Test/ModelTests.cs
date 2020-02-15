@@ -23,15 +23,5 @@ namespace MergeOpenApi.Api.Test
 
             save.Execute("some_test-api", "http://localhost:13001");
         }
-        
-        [Test]
-        public void Should_get_merged_schema()
-        {
-            var getMergedSchema = _container.GetInstance<IGetMergedSchema>();
-
-            var json = getMergedSchema.Execute();
-
-            json.Should().NotBeNull();
-        }
     }
 }
