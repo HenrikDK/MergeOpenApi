@@ -43,7 +43,7 @@ namespace MergeOpenApi.Api
                 c.TagActionsBy(p => new List<string> {"MergeOpenApi - Register deployed REST services and retrieve merged schema"});
                 c.SwaggerDoc("swagger", new OpenApiInfo { Title = "MergeOpenApi API", Version = "v1" });
                 
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
