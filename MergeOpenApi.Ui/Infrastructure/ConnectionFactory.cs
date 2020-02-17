@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace MergeOpenApi.Ui.Infrastructure
 {
@@ -10,12 +11,14 @@ namespace MergeOpenApi.Ui.Infrastructure
     
     public class ConnectionFactory : IConnectionFactory
     {
+        private readonly IConfiguration _configuration;
         private Lazy<string> _connectionString;
         
-        public ConnectionFactory()
+        public ConnectionFactory(IConfiguration configuration)
         {
-            //Connection string normally fetched from configuration service
-            _connectionString = new Lazy<string>(() => "Server=localhost;Port=5432;Database=henrik;User Id=postgres;Password=postgres;");
+            _configuration = configuration;
+            
+            _connectionString = new Lazy<string>(() => _configuration.GetConnectionString("postgres"));
         }
 
         public IDbConnection Get()
