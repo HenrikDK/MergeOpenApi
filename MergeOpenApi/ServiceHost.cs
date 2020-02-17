@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using MergeOpenApi.Merge;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MoreLinq;
 
 namespace MergeOpenApi
 {
@@ -17,7 +17,7 @@ namespace MergeOpenApi
         private TimeSpan _delay = TimeSpan.FromMinutes(5);
         private List<Task> _tasks = new List<Task>();
 
-        public ServiceHost(IScheduler scheduler, ILogger logger)
+        public ServiceHost(IScheduler scheduler, ILogger<ServiceHost> logger)
         {
             _scheduler = scheduler;
             _logger = logger;
@@ -43,6 +43,8 @@ namespace MergeOpenApi
             if (!IsCancellationException(task.Exception))
             {
                 _logger.Log(LogLevel.Error, "Service failed", task.Exception);
+
+                throw task.Exception;
             }
         }
 
