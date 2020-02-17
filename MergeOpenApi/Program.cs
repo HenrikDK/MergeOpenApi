@@ -17,13 +17,15 @@ namespace MergeOpenApi
             {
                 Console = true;
             }
-            
+
             var host = Host.CreateDefaultBuilder(args)
+                .UseLamar(new ApiRegistry())
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<ServiceHost>();
+                    services.AddLogging();
+                    services.AddMemoryCache();
                 })
-                .UseLamar(new ApiRegistry())
                 .Build();
           
             host.Run();
