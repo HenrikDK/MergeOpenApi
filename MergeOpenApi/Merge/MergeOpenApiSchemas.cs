@@ -6,6 +6,7 @@ using MergeOpenApi.Model;
 using MergeOpenApi.Model.Cache;
 using MergeOpenApi.Model.Commands;
 using MergeOpenApi.Model.Enums;
+using MoreLinq.Extensions;
 using Newtonsoft.Json.Linq;
 
 namespace MergeOpenApi.Merge
@@ -17,6 +18,13 @@ namespace MergeOpenApi.Merge
     
     public class MergeOpenApiSchemas : IMergeOpenApiSchemas
     {
+        private string mainSpec = @"
+{
+  ""openapi"": ""3.0.1"",
+  ""info"": {""title"": """", ""version"": ""v1""},
+  ""paths"": {},
+  ""components"": {""schemas"": {}}
+}";
         private readonly IGetConfigurationCached _getConfigurationCached;
         private readonly IMergeOpenApiSchema _mergeOpenApiSchema;
         private readonly IInsertMergedSchema _insertMergedSchema;
@@ -48,25 +56,16 @@ namespace MergeOpenApi.Merge
                 return;
             }
             
-            var firstId = services.Min(x => x.Id);
-
-            var primary = services.First(x => x.Id == firstId);
-
-            var mainSchema = JObject.Parse(primary.JsonData);
-
-            var remaining = services.Where(x => x.Id != primary.Id).ToList();
-
-            remaining.ForEach(x => MergeServiceIntoMainSchema(mainSchema, x));
+            var mainSchema = JObject.Parse(mainSpec);
+            
+            services.ForEach(x => MergeServiceIntoMainSchema(mainSchema, x));
 
             UpdateSchemaMasterData(mainSchema);
 
             using (var scope = new TransactionScope())
             {
                 _insertMergedSchema.Execute(mainSchema.ToString(), services.Count(x => x.Status == ServiceStatus.Done));
-
-                primary.Status = ServiceStatus.Done;
-                primary.Retry = 0;
-            
+                
                 _updateServiceStatus.Execute(services);
         
                 scope.Complete();
