@@ -1,5 +1,25 @@
 create schema if not exists openapi authorization postgres;
 
+drop table if exists openapi.configuration;
+
+create table openapi.configuration(
+    Id int not null unique,
+    Title varchar not null,
+    Description varchar not null,
+    TermsUrl varchar,
+    ContactEmail varchar,
+    LicenseName varchar,
+    LicenseUrl varchar,
+    SecurityType int,
+    SecurityKeyName varchar,
+    UrlFilter varchar not null,
+    JsonEndpoint varchar not null,
+    Created timestamp not null,
+    CreatedBy varchar not null,
+    Modified timestamp,
+    ModifiedBy varchar
+);
+
 drop table if exists openapi.service;
 
 create table openapi.service(
