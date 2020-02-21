@@ -1,0 +1,79 @@
+﻿@page "/"
+@model IndexModel
+
+<div class="row">
+<div class="col-md-9 order-md-1">
+  <p>&nbsp;</p>
+  <h2 class="mb-3">Configure merged API</h2>
+  <p>&nbsp;</p>
+  <form method="post">
+    <div class="mb-3">
+      <label asp-for="Configuration.Title" class="">Title</label>
+      <input asp-for="Configuration.Title" class="form-control" placeholder="API Title"/>
+    </div>
+    
+    <div class="mb-3">
+      <label asp-for="Configuration.Description" class="col-form-label">Description <span class="text-muted">(Optional)</span></label>
+      <input asp-for="Configuration.Description" class="form-control" placeholder="A description of your API"/>
+    </div>
+    
+    <div class="mb-3">
+      <label asp-for="Configuration.TermsUrl">Terms Url <span class="text-muted">(Optional)</span></label>
+      <input asp-for="Configuration.TermsUrl" class="form-control" placeholder="http://myterms.example.com">
+    </div>
+    
+    <div class="mb-3">
+      <label asp-for="Configuration.ContactEmail">Contact Email <span class="text-muted">(Optional)</span></label>
+      <input asp-for="Configuration.ContactEmail" class="form-control" placeholder="you@example.com">
+    </div>
+    
+    <div class="row">
+	    <div class="col-md-6 mb-3">
+	      <label asp-for="Configuration.UrlFilter">Url Filter</label>
+	      <input asp-for="Configuration.UrlFilter" class="form-control" placeholder="/">
+	    </div>
+	    
+	    <div class="col-md-6 mb-3">
+	      <label asp-for="Configuration.JsonEndpoint">Json Endpoint</label>
+	      <input asp-for="Configuration.JsonEndpoint" class="form-control" placeholder="/swagger.json">
+	    </div>
+    </div>
+
+    <hr class="mb-4">
+
+    <div>
+    <h4 class="mb-3">Authentication <span class="text-muted">(Optional)</span></h4>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="Configuration.SecurityType">Type</label>
+        <select asp-for="Configuration.SecurityType" asp-items="Model.SecurityTypes" class="form-control">
+          <option value=""></option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="Configuration.SecurityKeyName">Key Name</label>
+        <input asp-for="Configuration.SecurityKeyName" class="form-control">
+      </div>
+    </div>
+    </div>
+    <hr class="mb-4">
+
+    <div>
+    <h4 class="mb-3">License <span class="text-muted">(Optional)</span></h4>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="Configuration.LicenseName">Name</label>
+        <input asp-for="Configuration.LicenseName" class="form-control">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="Configuration.LicenseUrl">Url</label>
+        <input asp-for="Configuration.LicenseUrl" class="form-control">
+      </div>
+    </div>
+    </div>
+
+    <hr class="mb-4">
+    <button class="btn btn-primary btn-lg btn-block" type="submit">Update configuration</button>
+  </form>
+</div>
+</div>
