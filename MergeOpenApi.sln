@@ -6,7 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeOpenApi.Api", "MergeOp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeOpenApi.Ui", "MergeOpenApi.Ui\MergeOpenApi.Ui.csproj", "{B4207708-F722-41A3-BCB7-399BDE01B03C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeOpenApi.Api.Test", "MergeOpenApi.Api.Test\MergeOpenApi.Api.Test.csproj", "{0B579968-DFCE-4D33-AE46-0FE8331BCD4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeOpenApi.Test", "MergeOpenApi.Test\MergeOpenApi.Test.csproj", "{73632B63-1F44-49FA-A5BF-25F243C14967}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeOpenApi.Configuration.Ui", "MergeOpenApi.Configuration.Ui\MergeOpenApi.Configuration.Ui.csproj", "{995E9C00-6594-4CF7-AB1E-4BCA53B6AC7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,9 +28,13 @@ Global
 		{B4207708-F722-41A3-BCB7-399BDE01B03C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4207708-F722-41A3-BCB7-399BDE01B03C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4207708-F722-41A3-BCB7-399BDE01B03C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B579968-DFCE-4D33-AE46-0FE8331BCD4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B579968-DFCE-4D33-AE46-0FE8331BCD4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B579968-DFCE-4D33-AE46-0FE8331BCD4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B579968-DFCE-4D33-AE46-0FE8331BCD4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73632B63-1F44-49FA-A5BF-25F243C14967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73632B63-1F44-49FA-A5BF-25F243C14967}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73632B63-1F44-49FA-A5BF-25F243C14967}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73632B63-1F44-49FA-A5BF-25F243C14967}.Release|Any CPU.Build.0 = Release|Any CPU
+		{995E9C00-6594-4CF7-AB1E-4BCA53B6AC7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{995E9C00-6594-4CF7-AB1E-4BCA53B6AC7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{995E9C00-6594-4CF7-AB1E-4BCA53B6AC7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{995E9C00-6594-4CF7-AB1E-4BCA53B6AC7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
