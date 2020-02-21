@@ -18,7 +18,18 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\MergeOpenApi.Api\MergeOpenApi.Api.csproj" />
+      <ProjectReference Include="..\MergeOpenApi.Configuration.Ui\MergeOpenApi.Configuration.Ui.csproj" />
+      <ProjectReference Include="..\MergeOpenApi.Ui\MergeOpenApi.Ui.csproj" />
       <ProjectReference Include="..\MergeOpenApi\MergeOpenApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="appsettings.json">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>
