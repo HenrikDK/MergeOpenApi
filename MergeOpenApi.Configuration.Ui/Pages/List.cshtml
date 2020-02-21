@@ -1,0 +1,42 @@
+﻿@page "/services"
+@model ListModel
+
+<div class="container">
+ 
+</div>
+
+<div class="row">
+<div class="col-md-9 order-md-1">
+  <p>&nbsp;</p>
+  <h2 class="mb-3">Deployed API services</h2>
+  <p>&nbsp;</p>
+  <form method="post">
+    <table class="table">
+       <thead class="thead-light">
+       <tr>
+         <th>Name</th>
+         <th>Retries</th>
+         <th></th>
+       </tr>
+       </thead>
+       <tbody>
+
+       @foreach (var (service, index) in Model.Services.Select((v, i)=>(v, i)))
+       {
+           <tr class="h4">
+               <td>
+                 <input type="hidden" name="Services.Index" value="@index" />
+                 <input type="hidden" asp-for="@Model.Services[index].Id" value="@service.Id" />
+                 @service.Name
+               </td>
+               <td>@service.Retry</td>
+               <td><input type="checkbox" asp-for="@Model.Services[index].Enabled" data-toggle="toggle" data-onstyle="primary" data-offstyle="secondary" data-on="Active" data-off="Disabled"/></td>
+           </tr>
+       }
+       </tbody>
+     </table>
+      <hr class="mb-4">
+    <button class="btn btn-lg btn-primary" type="submit">Update services</button>
+  </form>
+</div>
+</div>
