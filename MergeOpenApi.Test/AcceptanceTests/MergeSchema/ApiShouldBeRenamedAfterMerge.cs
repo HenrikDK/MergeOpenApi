@@ -26,7 +26,7 @@ namespace MergeOpenApi.Test.AcceptanceTests.MergeSchema
 }";
         
         private ServiceDefinition _primaryService;
-        private Configuration _configuration;
+        private Model.Configuration _configuration;
 
         public ApiShouldBeRenamedAfterMerge()
         {
@@ -76,7 +76,7 @@ namespace MergeOpenApi.Test.AcceptanceTests.MergeSchema
         public void AndGivenApiServiceHasBeenConfigured()
         {
             var getConfiguration = Substitute.For<IGetConfigurationCached>();
-            _configuration = new Configuration{
+            _configuration = new Model.Configuration{
                 UrlFilter = "/v1/", 
                 JsonEndpoint = "/swagger.json",
                 Description = "This is a very important test Api",

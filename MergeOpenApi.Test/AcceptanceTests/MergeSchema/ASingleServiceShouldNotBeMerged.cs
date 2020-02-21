@@ -25,7 +25,7 @@ namespace MergeOpenApi.Test.AcceptanceTests.MergeSchema
             _registry.AddSingleton(Substitute.For<IMergeOpenApiSchema>());
 
             var getConfiguration = Substitute.For<IGetConfigurationCached>();
-            var configuration = new Configuration{UrlFilter = "/v1/", JsonEndpoint = "/swagger.json"};
+            var configuration = new Model.Configuration{UrlFilter = "/v1/", JsonEndpoint = "/swagger.json"};
             getConfiguration.Execute().Returns(configuration);
             _registry.AddSingleton(getConfiguration);
         }
