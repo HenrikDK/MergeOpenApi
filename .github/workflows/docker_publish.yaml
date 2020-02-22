@@ -1,0 +1,72 @@
+name: Docker Publish
+
+on:
+  push:
+    # Publish `master` as Docker `latest` image.
+    branches:
+      - master
+jobs:
+  build1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag merge-openapi
+        working-directory: MergeOpenApi
+
+      - name: Log into registry
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+
+      - name: Push image
+        run: |
+          docker tag merge-openapi ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-latest
+          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-latest
+  build2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag merge-openapi-api
+        working-directory: MergeOpenApi.Api
+
+      - name: Log into registry
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+
+      - name: Push image
+        run: |
+          docker tag merge-openapi-api ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-api-latest
+          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-api-latest
+  build3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag merge-openapi-ui
+        working-directory: MergeOpenApi.Ui
+
+      - name: Log into registry
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+
+      - name: Push image
+        run: |
+          docker tag merge-openapi-ui ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-ui-latest
+          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-ui-latest
+  build4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag merge-openapi-configuration-ui
+        working-directory: MergeOpenApi.Configuration.Ui
+
+      - name: Log into registry
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+
+      - name: Push image
+        run: |
+          docker tag merge-openapi-configuration-ui ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-configuration-ui-latest
+          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-configuration-ui-latest
