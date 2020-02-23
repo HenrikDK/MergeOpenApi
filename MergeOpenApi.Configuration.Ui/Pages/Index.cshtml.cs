@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 using MergeOpenApi.Configuration.Ui.Model.Commands;
 using MergeOpenApi.Configuration.Ui.Model.Enums;
 using MergeOpenApi.Configuration.Ui.Model.Queries;
@@ -15,6 +16,7 @@ namespace MergeOpenApi.Configuration.Ui.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IGetConfiguration _getConfiguration;
+        private readonly IUpdateServicesToTriggerMerge _updateServicesToTriggerMerge;
         private readonly ISaveConfiguration _saveConfiguration;
         
         [BindProperty(SupportsGet = true)]
@@ -25,10 +27,12 @@ namespace MergeOpenApi.Configuration.Ui.Pages
 
         public IndexModel(ILogger<IndexModel> logger,
             IGetConfiguration getConfiguration,
+            IUpdateServicesToTriggerMerge updateServicesToTriggerMerge,
             ISaveConfiguration saveConfiguration)
         {
             _logger = logger;
             _getConfiguration = getConfiguration;
+            _updateServicesToTriggerMerge = updateServicesToTriggerMerge;
             _saveConfiguration = saveConfiguration;
         }
 
@@ -67,8 +71,14 @@ namespace MergeOpenApi.Configuration.Ui.Pages
             {
                 return Page();
             }
+
+            using (var scope = new TransactionScope())
+            {
+                _saveConfiguration.Execute(Configuration);
+                _updateServicesToTriggerMerge.Execute();
             
-            _saveConfiguration.Execute(Configuration);
+                scope.Complete();
+            }
 
             return RedirectToPage("Index");
         }
