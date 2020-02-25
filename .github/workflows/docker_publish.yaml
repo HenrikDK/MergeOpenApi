@@ -20,8 +20,9 @@ jobs:
 
       - name: Push image
         run: |
-          docker tag merge-openapi ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-latest
-          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-latest
+          git_hash=$(git rev-parse --short "$GITHUB_SHA")
+          docker tag merge-openapi ${{ secrets.DOCKER_USER }}/merge-openapi:$git_hash
+          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:$git_hash
   build2:
     runs-on: ubuntu-latest
     steps:
@@ -36,8 +37,9 @@ jobs:
 
       - name: Push image
         run: |
-          docker tag merge-openapi-api ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-api-latest
-          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-api-latest
+          git_hash=$(git rev-parse --short "$GITHUB_SHA")
+          docker tag merge-openapi-api ${{ secrets.DOCKER_USER }}/merge-openapi-api:$git_hash
+          docker push ${{ secrets.DOCKER_USER }}/merge-openapi-api:$git_hash
   build3:
     runs-on: ubuntu-latest
     steps:
@@ -52,8 +54,9 @@ jobs:
 
       - name: Push image
         run: |
-          docker tag merge-openapi-ui ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-ui-latest
-          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-ui-latest
+          git_hash=$(git rev-parse --short "$GITHUB_SHA")
+          docker tag merge-openapi-ui ${{ secrets.DOCKER_USER }}/merge-openapi-ui:$git_hash
+          docker push ${{ secrets.DOCKER_USER }}/merge-openapi-ui:$git_hash
   build4:
     runs-on: ubuntu-latest
     steps:
@@ -68,5 +71,6 @@ jobs:
 
       - name: Push image
         run: |
-          docker tag merge-openapi-configuration-ui ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-configuration-ui-latest
-          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:merge-openapi-configuration-ui-latest
+          git_hash=$(git rev-parse --short "$GITHUB_SHA")
+          docker tag merge-openapi-configuration-ui ${{ secrets.DOCKER_USER }}/merge-openapi-configuration-ui:$git_hash
+          docker push ${{ secrets.DOCKER_USER }}/merge-openapi-configuration-ui:$git_hash
