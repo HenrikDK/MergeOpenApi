@@ -2,6 +2,7 @@ using System.Data;
 using System.Threading;
 using Lamar;
 using MergeOpenApi.Infrastructure;
+using MergeOpenApi.Merge;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -36,6 +37,8 @@ namespace MergeOpenApi.Test.AcceptanceTests
         private void MockLogging()
         {
             _registry.AddSingleton(Substitute.For<ILogger>());
+            _registry.AddSingleton(Substitute.For<ILogger<ServiceHost>>());
+            _registry.AddSingleton(Substitute.For<ILogger<ProcessDeployedServices>>());
         }
         
         private void MockMemoryCache()
