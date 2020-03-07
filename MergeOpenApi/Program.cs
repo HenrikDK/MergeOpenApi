@@ -3,8 +3,8 @@ using System.Diagnostics;
 using System.Linq;
 using Lamar.Microsoft.DependencyInjection;
 using MergeOpenApi.Infrastructure;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace MergeOpenApi
@@ -20,7 +20,7 @@ namespace MergeOpenApi
                 Debug = true;
             }
 
-            var host = new WebHostBuilder()
+            var host = Host.CreateDefaultBuilder()
                 .UseLamar(new ApiRegistry())
                 .ConfigureServices((hostContext, services) =>
                 {

@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using Lamar.Microsoft.DependencyInjection;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace MergeOpenApi.Configuration.Ui
@@ -17,7 +18,7 @@ namespace MergeOpenApi.Configuration.Ui
                 Debug = true;
             }
             
-            var host = new WebHostBuilder()
+            var host = WebHost.CreateDefaultBuilder()
                 .UseKestrel()
                 .UseLamar()
                 .UseStartup<Startup>()
