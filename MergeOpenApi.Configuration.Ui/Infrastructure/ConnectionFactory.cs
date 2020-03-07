@@ -18,7 +18,7 @@ namespace MergeOpenApi.Configuration.Ui.Infrastructure
         {
             _configuration = configuration;
             
-            _connectionString = new Lazy<string>(() => _configuration.GetConnectionString("postgres"));
+            _connectionString = new Lazy<string>(GetConnectionStringFromConfiguration);
         }
 
         public IDbConnection Get()
@@ -26,6 +26,17 @@ namespace MergeOpenApi.Configuration.Ui.Infrastructure
             var connection = new Npgsql.NpgsqlConnection(_connectionString.Value);
             connection.Open();
             return connection;
+        }
+
+        private string GetConnectionStringFromConfiguration()
+        {
+            var connectionString = Environment.GetEnvironmentVariable("postgres");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                connectionString = _configuration.GetConnectionString("postgres");
+            }
+
+            return connectionString;
         }
     }
 }
