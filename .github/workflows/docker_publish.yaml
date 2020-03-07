@@ -20,9 +20,11 @@ jobs:
 
       - name: Push image
         run: |
-          git_hash=$(git rev-parse --short "$GITHUB_SHA")
-          docker tag merge-openapi ${{ secrets.DOCKER_USER }}/merge-openapi:$git_hash
-          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:$git_hash
+          build_id=$(date +'%Y%m%d')
+          build_id+="-"
+          build_id+=$(git rev-parse --short "$GITHUB_SHA")
+          docker tag merge-openapi ${{ secrets.DOCKER_USER }}/merge-openapi:$build_id
+          docker push ${{ secrets.DOCKER_USER }}/merge-openapi:$build_id
   build2:
     runs-on: ubuntu-latest
     steps:
@@ -37,9 +39,11 @@ jobs:
 
       - name: Push image
         run: |
-          git_hash=$(git rev-parse --short "$GITHUB_SHA")
-          docker tag merge-openapi-api ${{ secrets.DOCKER_USER }}/merge-openapi-api:$git_hash
-          docker push ${{ secrets.DOCKER_USER }}/merge-openapi-api:$git_hash
+          build_id=$(date +'%Y%m%d')
+          build_id+="-"
+          build_id+=$(git rev-parse --short "$GITHUB_SHA")
+          docker tag merge-openapi-api ${{ secrets.DOCKER_USER }}/merge-openapi-api:$build_id
+          docker push ${{ secrets.DOCKER_USER }}/merge-openapi-api:$build_id
   build3:
     runs-on: ubuntu-latest
     steps:
