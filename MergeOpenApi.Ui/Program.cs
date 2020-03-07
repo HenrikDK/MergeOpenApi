@@ -1,8 +1,11 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using Lamar.Microsoft.DependencyInjection;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace MergeOpenApi.Ui
 {
@@ -17,7 +20,7 @@ namespace MergeOpenApi.Ui
                 Debug = true;
             }
 
-            var host = new WebHostBuilder()
+            var host = WebHost.CreateDefaultBuilder()
                 .UseKestrel()
                 .UseLamar()
                 .UseStartup<Startup>()
