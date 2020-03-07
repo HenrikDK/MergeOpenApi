@@ -25,7 +25,7 @@ namespace MergeOpenApi.Configuration.Ui
             services.AddRazorPages(o => o.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute()));
             services.AddLamar(new ApiRegistry());
 
-            if (Program.Console)
+            if (Program.Debug)
             {
                 services.AddLogging(x =>
                 {
@@ -38,7 +38,7 @@ namespace MergeOpenApi.Configuration.Ui
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (Program.Console || env.IsDevelopment())
+            if (Program.Debug || env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

@@ -1,23 +1,23 @@
+using System;
 using System.Diagnostics;
 using System.Linq;
 using Lamar.Microsoft.DependencyInjection;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace MergeOpenApi.Ui
 {
     public class Program
     {
-        public static bool Console = false;
+        public static bool Debug = false;
 
         public static void Main(string[] args)
         {
-            if (args.Contains("console") || Debugger.IsAttached)
+            if (args.Contains("debug") || Debugger.IsAttached || Environment.GetEnvironmentVariable("debug") != null )
             {
-                Console = true;
+                Debug = true;
             }
 
-            var host = WebHost.CreateDefaultBuilder(args)
+            var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseLamar()
                 .UseStartup<Startup>()
