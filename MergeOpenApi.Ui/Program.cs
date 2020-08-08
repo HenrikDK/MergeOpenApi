@@ -1,11 +1,9 @@
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 
 namespace MergeOpenApi.Ui
 {
@@ -24,7 +22,7 @@ namespace MergeOpenApi.Ui
                 .UseKestrel()
                 .UseLamar()
                 .UseStartup<Startup>()
-                .UseUrls("http://*:13004/")
+                .UseUrls("http://*:80/")
                 .Build();
             
             host.Run();

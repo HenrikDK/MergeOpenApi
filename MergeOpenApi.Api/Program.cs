@@ -22,7 +22,7 @@ namespace MergeOpenApi.Api
                 .UseKestrel()
                 .UseLamar()
                 .UseStartup<Startup>()
-                .UseUrls("http://*:13000")
+                .UseUrls("http://*:80")
                 .Build();
             
             host.Run();
