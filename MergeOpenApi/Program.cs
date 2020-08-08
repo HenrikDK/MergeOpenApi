@@ -2,10 +2,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using Lamar.Microsoft.DependencyInjection;
-using MergeOpenApi.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace MergeOpenApi
 {
@@ -20,24 +18,13 @@ namespace MergeOpenApi
                 Debug = true;
             }
 
-            var host = Host.CreateDefaultBuilder()
-                .UseLamar(new ApiRegistry())
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddHostedService<ServiceHost>();
-                    services.AddMemoryCache();
-
-                    if (Debug)
-                    {
-                        services.AddLogging(x =>
-                        {
-                            x.AddDebug();
-                            x.AddConsole();
-                        });
-                    }
-                })
+            var host = WebHost.CreateDefaultBuilder()
+                .UseKestrel()
+                .UseLamar()
+                .UseStartup<Startup>()
+                .UseUrls("http://*:80")
                 .Build();
-          
+
             host.Run();
         }
     }
