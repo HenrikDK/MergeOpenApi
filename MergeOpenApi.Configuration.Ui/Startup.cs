@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Prometheus;
 
 namespace MergeOpenApi.Configuration.Ui
 {
@@ -47,12 +48,13 @@ namespace MergeOpenApi.Configuration.Ui
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseHttpMetrics();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapMetrics();
             });
         }
     }
