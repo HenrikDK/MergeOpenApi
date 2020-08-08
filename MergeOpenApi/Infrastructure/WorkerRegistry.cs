@@ -3,9 +3,9 @@ using MergeOpenApi.Model.Cache;
 
 namespace MergeOpenApi.Infrastructure
 {
-    public class ApiRegistry : ServiceRegistry
+    public class WorkerRegistry : ServiceRegistry
     {
-        public ApiRegistry()
+        public WorkerRegistry()
         {
             Scan(x =>
             {
@@ -15,7 +15,7 @@ namespace MergeOpenApi.Infrastructure
 
                 x.LookForRegistries();
                 
-                x.ExcludeType<ApiRegistry>();
+                x.ExcludeType<WorkerRegistry>();
             });
 
             For<IConnectionFactory>().Use<ConnectionFactory>().Singleton();
