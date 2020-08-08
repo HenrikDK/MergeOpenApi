@@ -7,8 +7,6 @@ using MergeOpenApi.Model;
 using MergeOpenApi.Model.Cache;
 using MergeOpenApi.Model.Commands;
 using MergeOpenApi.Model.Enums;
-using MoreLinq;
-using MoreLinq.Extensions;
 
 namespace MergeOpenApi.Merge
 {
