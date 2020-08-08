@@ -14,12 +14,12 @@ namespace MergeOpenApi.Test.AcceptanceTests
     {
         protected CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
-        protected ApiRegistry _registry;
+        protected WorkerRegistry _registry;
         protected Container _container;
 
         public AcceptanceTest()
         {
-            _registry = new ApiRegistry();
+            _registry = new WorkerRegistry();
 
             MockDapper();
             MockLogging();
