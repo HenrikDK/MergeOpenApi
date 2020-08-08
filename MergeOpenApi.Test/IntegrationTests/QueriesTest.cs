@@ -22,7 +22,7 @@ namespace MergeOpenApi.Test.IntegrationTests
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            var registry = new ApiRegistry();
+            var registry = new WorkerRegistry();
             registry.AddSingleton(_configuration);
             _container = new Container(registry);
         }
