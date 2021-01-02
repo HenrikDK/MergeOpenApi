@@ -27,10 +27,8 @@ from openapi.service s
 where s.Status != 4
 and s.IsDelete = false;";
 
-            using (var connection = _connectionFactory.Get())
-            {
-               return connection.Query<ServiceDefinition>(sql).ToList();
-            }
+            using var connection = _connectionFactory.Get();
+            return connection.Query<ServiceDefinition>(sql).ToList();
         }
     }
 }

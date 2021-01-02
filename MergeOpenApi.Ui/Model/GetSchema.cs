@@ -26,10 +26,8 @@ from openapi.schema s
 order by s.id desc
 limit 1";
 
-            using (var connection = _connectionFactory.Get())
-            {
-               return connection.Query<string>(sql).FirstOrDefault();
-            }
+            using var connection = _connectionFactory.Get();
+            return connection.Query<string>(sql).FirstOrDefault();
         }
     }
 }
