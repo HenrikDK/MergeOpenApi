@@ -23,10 +23,8 @@ namespace MergeOpenApi.Model.Commands
 insert into openapi.schema (jsondata, services, created, createdby)
 values (@json, @serviceCount, current_timestamp, 'MergeOpenApi');";
 
-            using (var connection = _connectionFactory.Get())
-            {
-                connection.Execute(sql, new { json, serviceCount });
-            }
+            using var connection = _connectionFactory.Get();
+            connection.Execute(sql, new { json, serviceCount });
         }
     }
 }

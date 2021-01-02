@@ -24,10 +24,8 @@ namespace MergeOpenApi.Model.Queries
 select count(s.Id) from openapi.service s
 where s.Status not in (3,4);";
 
-            using (var connection = _connectionFactory.Get())
-            {
-               return connection.Query<int>(sql).FirstOrDefault();
-            }
+            using var connection = _connectionFactory.Get();
+            return connection.Query<int>(sql).FirstOrDefault();
         }
     }
 }
