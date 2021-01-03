@@ -27,10 +27,8 @@ from openapi.service s
 where s.IsDelete = false
 order by s.Name;";
 
-            using (var connection = _connectionFactory.Get())
-            {
-               return connection.Query<Service>(sql).ToList();
-            }
+            using var connection = _connectionFactory.Get();
+            return connection.Query<Service>(sql).ToList();
         }
     }
 }

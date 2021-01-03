@@ -26,10 +26,8 @@ update openapi.service set
     Status = 1
 where Status = 3;";
 
-            using (var connection = _connectionFactory.Get())
-            {
-                connection.Execute(sql);
-            }
+            using var connection = _connectionFactory.Get();
+            connection.Execute(sql);
         }
     }
 }
