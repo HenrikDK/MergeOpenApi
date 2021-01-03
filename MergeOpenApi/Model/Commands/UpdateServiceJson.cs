@@ -29,10 +29,8 @@ update openapi.service set
     Retry = 0
 where Id = @Id;";
 
-            using (var connection = _connectionFactory.Get())
-            {
-                connection.Execute(sql, services);
-            }
+            using var connection = _connectionFactory.Get();
+            connection.Execute(sql, services);
         }
     }
 }

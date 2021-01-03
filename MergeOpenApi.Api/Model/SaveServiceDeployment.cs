@@ -30,10 +30,8 @@ DO
     Modified = current_timestamp,
     ModifiedBy = 'MergeOpenApi.Api';";
 
-            using (var connection = _connectionFactory.Get())
-            {
-                connection.Execute(sql, new { serviceName = name, serviceUrls });
-            }
+            using var connection = _connectionFactory.Get();
+            connection.Execute(sql, new { serviceName = name, serviceUrls });
         }
     }
 }

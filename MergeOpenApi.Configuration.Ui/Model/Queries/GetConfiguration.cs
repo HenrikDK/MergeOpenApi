@@ -26,10 +26,8 @@ select title, description, termsurl, contactemail, licensename, licenseurl, secu
 from openapi.configuration
 limit 1;";
 
-            using (var connection = _connectionFactory.Get())
-            {
-               return connection.Query<Configuration>(sql).FirstOrDefault();
-            }
+            using var connection = _connectionFactory.Get();
+            return connection.Query<Configuration>(sql).FirstOrDefault();
         }
     }
 }

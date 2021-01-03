@@ -38,10 +38,8 @@ DO
     Modified = current_timestamp,
     ModifiedBy = 'MergeOpenApi.Configuration.Ui';";
 
-            using (var connection = _connectionFactory.Get())
-            {
-                connection.Execute(sql, configuration);
-            }
+            using var connection = _connectionFactory.Get();
+            connection.Execute(sql, configuration);
         }
     }
 }
