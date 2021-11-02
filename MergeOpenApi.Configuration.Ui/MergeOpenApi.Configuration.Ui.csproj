@@ -6,12 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.78" />
-    <PackageReference Include="Lamar" Version="5.0.0" />
-    <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="5.0.0" />
+    <PackageReference Include="Dapper" Version="2.0.90" />
+    <PackageReference Include="Lamar" Version="6.0.0" />
+    <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="morelinq" Version="3.3.2" />
-    <PackageReference Include="Npgsql" Version="5.0.1.1" />
-    <PackageReference Include="prometheus-net.AspNetCore" Version="4.1.1" />
+    <PackageReference Include="Npgsql" Version="5.0.10" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="5.0.1" />
   </ItemGroup>
 
 
