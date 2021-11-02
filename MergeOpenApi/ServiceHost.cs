@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MergeOpenApi.Merge;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Prometheus;
 
 namespace MergeOpenApi
 {
@@ -16,11 +17,15 @@ namespace MergeOpenApi
         private readonly ILogger _logger;
         private TimeSpan _delay = TimeSpan.FromMinutes(5);
         private List<Task> _tasks = new List<Task>();
+        private KestrelMetricServer _server;
 
         public ServiceHost(IScheduler scheduler, ILogger<ServiceHost> logger)
         {
             _scheduler = scheduler;
             _logger = logger;
+
+            _server = new KestrelMetricServer(1402);
+            _server.Start();
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
