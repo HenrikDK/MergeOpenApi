@@ -1,11 +1,10 @@
-namespace MergeOpenApi.Configuration.Ui.Model.Enums
+namespace MergeOpenApi.Configuration.Ui.Model.Enums;
+
+public enum ServiceStatus
 {
-    public enum ServiceStatus
-    {
-        Deployed = 0,
-        Fetched = 1,
-        Processing = 2,
-        Done = 3,
-        Disabled = 4
-    }
+    Deployed = 0,
+    Fetched = 1,
+    Processing = 2,
+    Done = 3,
+    Disabled = 4
 }
