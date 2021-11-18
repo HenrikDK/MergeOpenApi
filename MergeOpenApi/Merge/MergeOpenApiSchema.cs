@@ -1,54 +1,51 @@
-using Flurl.Util;
 using MergeOpenApi.Model;
 using MergeOpenApi.Model.Cache;
-using Newtonsoft.Json.Linq;
 
-namespace MergeOpenApi.Merge
+namespace MergeOpenApi.Merge;
+
+public interface IMergeOpenApiSchema
 {
-    public interface IMergeOpenApiSchema
-    {
-        void Execute(JObject mainSchema, ServiceDefinition service);
-    }
+    void Execute(JObject mainSchema, ServiceDefinition service);
+}
     
-    public class MergeOpenApiSchema : IMergeOpenApiSchema
+public class MergeOpenApiSchema : IMergeOpenApiSchema
+{
+    private readonly IGetConfigurationCached _getConfigurationCached;
+
+    public MergeOpenApiSchema(IGetConfigurationCached getConfigurationCached)
     {
-        private readonly IGetConfigurationCached _getConfigurationCached;
-
-        public MergeOpenApiSchema(IGetConfigurationCached getConfigurationCached)
-        {
-            _getConfigurationCached = getConfigurationCached;
-        }
+        _getConfigurationCached = getConfigurationCached;
+    }
         
-        public void Execute(JObject mainSchema, ServiceDefinition service)
+    public void Execute(JObject mainSchema, ServiceDefinition service)
+    {
+        var configuration = _getConfigurationCached.Execute();
+        var json = JObject.Parse(service.JsonData);
+
+        var schema = service.JsonData; 
+
+        var types = json["components"]["schemas"].ToKeyValuePairs();
+        foreach (var type in types)
         {
-            var configuration = _getConfigurationCached.Execute();
-            var json = JObject.Parse(service.JsonData);
+            schema = schema.Replace($"#/components/schemas/{type.Key}", $"#/components/schemas/{service.Id}_{type.Key}");
+        }
 
-            var schema = service.JsonData; 
+        var serviceJson = JObject.Parse(schema);
+        foreach (var type in types)
+        {
+            mainSchema["components"]["schemas"][$"{service.Id}_{type.Key}"] = serviceJson["components"]["schemas"][type.Key];
+        }
 
-            var types = json["components"]["schemas"].ToKeyValuePairs();
-            foreach (var type in types)
+        var paths = json["paths"].ToKeyValuePairs();
+        var urlFilter = configuration.UrlFilter ?? "/";
+        foreach (var path in paths)
+        {
+            if (!path.Key.Contains(urlFilter))
             {
-                schema = schema.Replace($"#/components/schemas/{type.Key}", $"#/components/schemas/{service.Id}_{type.Key}");
+                continue;
             }
-
-            var serviceJson = JObject.Parse(schema);
-            foreach (var type in types)
-            {
-                mainSchema["components"]["schemas"][$"{service.Id}_{type.Key}"] = serviceJson["components"]["schemas"][type.Key];
-            }
-
-            var paths = json["paths"].ToKeyValuePairs();
-            var urlFilter = configuration.UrlFilter ?? "/";
-            foreach (var path in paths)
-            {
-                if (!path.Key.Contains(urlFilter))
-                {
-                    continue;
-                }
                 
-                mainSchema["paths"][path.Key] = serviceJson["paths"][path.Key];
-            }
+            mainSchema["paths"][path.Key] = serviceJson["paths"][path.Key];
         }
     }
 }

@@ -1,32 +1,30 @@
-using System;
 using MergeOpenApi.Model.Queries;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace MergeOpenApi.Model.Cache
+namespace MergeOpenApi.Model.Cache;
+
+public interface IGetConfigurationCached
 {
-    public interface IGetConfigurationCached
-    {
-        Configuration Execute();
-    }
+    Configuration Execute();
+}
     
-    public class GetConfigurationCached : IGetConfigurationCached
+public class GetConfigurationCached : IGetConfigurationCached
+{
+    private readonly IMemoryCache _cache;
+    private readonly IGetConfiguration _getConfiguration;
+
+    public GetConfigurationCached(IMemoryCache cache, IGetConfiguration getConfiguration)
     {
-        private readonly IMemoryCache _cache;
-        private readonly IGetConfiguration _getConfiguration;
+        _cache = cache;
+        _getConfiguration = getConfiguration;
+    }
 
-        public GetConfigurationCached(IMemoryCache cache, IGetConfiguration getConfiguration)
+    public Configuration Execute()
+    {
+        return _cache.GetOrCreate("configuration", x =>
         {
-            _cache = cache;
-            _getConfiguration = getConfiguration;
-        }
-
-        public Configuration Execute()
-        {
-            return _cache.GetOrCreate("configuration", x =>
-            {
-                x.SlidingExpiration = TimeSpan.FromMinutes(15);
-                return _getConfiguration.Execute();
-            });
-        }
+            x.SlidingExpiration = TimeSpan.FromMinutes(15);
+            return _getConfiguration.Execute();
+        });
     }
 }

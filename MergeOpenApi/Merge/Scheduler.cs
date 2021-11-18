@@ -1,50 +1,44 @@
-using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
+namespace MergeOpenApi.Merge;
 
-namespace MergeOpenApi.Merge
+public interface IScheduler
 {
-    public interface IScheduler
-    {
-        void ExecuteWithDelay(CancellationToken token, TimeSpan delay);
-    }
+    void ExecuteWithDelay(CancellationToken token, TimeSpan delay);
+}
     
-    public class Scheduler : IScheduler
+public class Scheduler : IScheduler
+{
+    private readonly IProcessDeployedServices _processDeployedServices;
+    private TimeSpan _delay = TimeSpan.FromMinutes(5);
+
+    public Scheduler(IProcessDeployedServices processDeployedServices)
     {
-        private readonly IProcessDeployedServices _processDeployedServices;
-        private TimeSpan _delay = TimeSpan.FromMinutes(5);
-
-        public Scheduler(IProcessDeployedServices processDeployedServices)
-        {
-            _processDeployedServices = processDeployedServices;
-        }
+        _processDeployedServices = processDeployedServices;
+    }
         
-        public void ExecuteWithDelay(CancellationToken token, TimeSpan delay)
+    public void ExecuteWithDelay(CancellationToken token, TimeSpan delay)
+    {
+        _delay = delay;
+        var stopWatch = new Stopwatch();
+        while (!token.IsCancellationRequested)
         {
-            _delay = delay;
-            var stopWatch = new Stopwatch();
-            while (!token.IsCancellationRequested)
-            {
-                stopWatch.Start();
+            stopWatch.Start();
                 
-                _processDeployedServices.Execute();
+            _processDeployedServices.Execute();
 
-                WaitForNextExecution(token, stopWatch);
-            }
+            WaitForNextExecution(token, stopWatch);
         }
+    }
 
-        private void WaitForNextExecution(CancellationToken token, Stopwatch stopWatch)
+    private void WaitForNextExecution(CancellationToken token, Stopwatch stopWatch)
+    {
+        stopWatch.Stop();
+        var elapsed = stopWatch.Elapsed;
+        var calculated = _delay.Subtract(elapsed);
+        stopWatch.Reset();
+
+        if (elapsed < _delay)
         {
-            stopWatch.Stop();
-            var elapsed = stopWatch.Elapsed;
-            var calculated = _delay.Subtract(elapsed);
-            stopWatch.Reset();
-
-            if (elapsed < _delay)
-            {
-                Task.Delay(calculated).Wait(token);
-            }
+            Task.Delay(calculated).Wait(token);
         }
     }
 }

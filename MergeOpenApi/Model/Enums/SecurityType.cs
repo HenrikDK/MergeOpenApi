@@ -1,9 +1,8 @@
-namespace MergeOpenApi.Model.Enums
+namespace MergeOpenApi.Model.Enums;
+
+public enum SecurityType
 {
-    public enum SecurityType
-    {
-        None = 0,
-        BasicAuth = 1,
-        ApiKey = 2,
-    }
+    None = 0,
+    BasicAuth = 1,
+    ApiKey = 2,
 }
