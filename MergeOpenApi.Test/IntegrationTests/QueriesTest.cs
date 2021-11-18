@@ -1,11 +1,5 @@
-using System.IO;
-using FluentAssertions;
-using Lamar;
 using MergeOpenApi.Infrastructure;
 using MergeOpenApi.Model.Queries;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
 
 namespace MergeOpenApi.Test.IntegrationTests
 {
