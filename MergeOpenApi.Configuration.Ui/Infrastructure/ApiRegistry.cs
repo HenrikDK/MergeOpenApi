@@ -1,21 +1,18 @@
-using Lamar;
+namespace MergeOpenApi.Configuration.Ui.Infrastructure;
 
-namespace MergeOpenApi.Configuration.Ui.Infrastructure
+public class ApiRegistry : ServiceRegistry
 {
-    public class ApiRegistry : ServiceRegistry
+    public ApiRegistry()
     {
-        public ApiRegistry()
+        Scan(x =>
         {
-            Scan(x =>
-            {
-                x.AssemblyContainingType<Program>();
+            x.AssemblyContainingType<Program>();
                 
-                x.WithDefaultConventions();
+            x.WithDefaultConventions();
 
-                x.LookForRegistries();
+            x.LookForRegistries();
                 
-                x.ExcludeType<ApiRegistry>();
-            });
-        }
+            x.ExcludeType<ApiRegistry>();
+        });
     }
 }
