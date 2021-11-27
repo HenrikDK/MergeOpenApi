@@ -1,4 +1,3 @@
-
 namespace MergeOpenApi.Test.AcceptanceTests.MergeSchema;
 
 [Story(AsA = "User", 
