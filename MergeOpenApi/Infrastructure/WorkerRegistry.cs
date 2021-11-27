@@ -1,25 +1,23 @@
-using Lamar;
 using MergeOpenApi.Model.Cache;
 
-namespace MergeOpenApi.Infrastructure
+namespace MergeOpenApi.Infrastructure;
+
+public class WorkerRegistry : ServiceRegistry
 {
-    public class WorkerRegistry : ServiceRegistry
+    public WorkerRegistry()
     {
-        public WorkerRegistry()
+        Scan(x =>
         {
-            Scan(x =>
-            {
-                x.AssemblyContainingType<Program>();
+            x.AssemblyContainingType<Program>();
                 
-                x.WithDefaultConventions();
+            x.WithDefaultConventions();
 
-                x.LookForRegistries();
+            x.LookForRegistries();
                 
-                x.ExcludeType<WorkerRegistry>();
-            });
+            x.ExcludeType<WorkerRegistry>();
+        });
 
-            For<IConnectionFactory>().Use<ConnectionFactory>().Singleton();
-            For<IGetConfigurationCached>().Use<GetConfigurationCached>().Singleton();
-        }
+        For<IConnectionFactory>().Use<ConnectionFactory>().Singleton();
+        For<IGetConfigurationCached>().Use<GetConfigurationCached>().Singleton();
     }
 }
