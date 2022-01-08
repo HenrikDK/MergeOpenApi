@@ -1,23 +1,52 @@
-namespace MergeOpenApi.Configuration.Ui;
+var builder = WebApplication.CreateBuilder(args);
 
-public class Program
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console(new JsonFormatter())
+    .CreateLogger();
+
+builder.Host.UseLamar((context, registry) =>
 {
-    public static bool Debug = false;
-
-    public static void Main(string[] args)
+    registry.Scan(x =>
     {
-        if (args.Contains("debug") || Debugger.IsAttached || Environment.GetEnvironmentVariable("debug") != null )
-        {
-            Debug = true;
-        }
-            
-        var host = WebHost.CreateDefaultBuilder()
-            .UseKestrel()
-            .UseLamar()
-            .UseStartup<Startup>()
-            .UseUrls("http://*:8080/")
-            .Build();
-            
-        host.Run();
-    }
+        x.AssemblyContainingType<Program>();
+        x.WithDefaultConventions();
+        x.LookForRegistries();
+    });
+});
+
+builder.WebHost
+    .ConfigureKestrel(x => x.ListenAnyIP(8080))
+    .ConfigureLogging((context, config) =>
+    {
+        config.ClearProviders();
+        config.AddSerilog();
+    });
+
+builder.Services.AddControllers();
+builder.Services.AddMemoryCache();
+builder.Services.AddRazorPages(o => o.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute()));
+
+var app = builder.Build();
+
+if (args.Contains("debug") || Debugger.IsAttached || Environment.GetEnvironmentVariable("debug") != null )
+{
+    app.UseDeveloperExceptionPage();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+app.UseHttpMetrics();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapMetrics();
+});
+
+app.Run();
+
+Log.CloseAndFlush();
