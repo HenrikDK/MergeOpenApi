@@ -5,7 +5,7 @@ namespace MergeOpenApi;
 public class ServiceHost : IHostedService
 {
     private readonly IScheduler _scheduler;
-    private readonly ILogger _logger;
+    private readonly ILogger<ServiceHost> _logger;
     private TimeSpan _delay = TimeSpan.FromMinutes(5);
     private List<Task> _tasks = new List<Task>();
     private KestrelMetricServer _server;
