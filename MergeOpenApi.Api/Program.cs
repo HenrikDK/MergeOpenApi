@@ -5,18 +5,19 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console(new JsonFormatter())
     .CreateLogger();
 
+builder.Host.UseLamar((context, registry) =>
+{
+    // register services using Lamar
+    registry.Scan(x =>
+    {
+        x.AssemblyContainingType<Program>();
+        x.WithDefaultConventions();
+        x.LookForRegistries();
+    });
+});
+
 builder.WebHost
     .ConfigureKestrel(x => x.ListenAnyIP(8080))
-    .UseLamar((context, registry) =>
-    {
-        // register services using Lamar
-        registry.Scan(x =>
-        {
-            x.AssemblyContainingType<Program>();
-            x.WithDefaultConventions();
-            x.LookForRegistries();
-        });
-    })
     .ConfigureLogging((context, config) =>
     {
         config.ClearProviders();
