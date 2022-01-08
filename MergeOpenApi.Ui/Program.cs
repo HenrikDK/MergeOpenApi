@@ -28,6 +28,11 @@ builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
+if (args.Contains("debug") || Debugger.IsAttached || Environment.GetEnvironmentVariable("debug") != null )
+{
+    app.UseDeveloperExceptionPage();
+}
+
 app.UseSwaggerUI(x =>
 {
     x.RoutePrefix = "";

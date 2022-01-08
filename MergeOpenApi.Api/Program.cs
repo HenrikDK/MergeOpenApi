@@ -7,7 +7,6 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseLamar((context, registry) =>
 {
-    // register services using Lamar
     registry.Scan(x =>
     {
         x.AssemblyContainingType<Program>();
@@ -37,6 +36,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+if (args.Contains("debug") || Debugger.IsAttached || Environment.GetEnvironmentVariable("debug") != null )
+{
+    app.UseDeveloperExceptionPage();
+}
 
 app.UseSwagger(x => x.RouteTemplate = "/{documentName}.json");
 app.UseSwaggerUI(x =>
