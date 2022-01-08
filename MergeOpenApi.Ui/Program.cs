@@ -1,23 +1,50 @@
-namespace MergeOpenApi.Ui;
+var builder = WebApplication.CreateBuilder(args);
 
-public class Program
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console(new JsonFormatter())
+    .CreateLogger();
+
+builder.Host.UseLamar((context, registry) =>
 {
-    public static bool Debug = false;
-
-    public static void Main(string[] args)
+    registry.Scan(x =>
     {
-        if (args.Contains("debug") || Debugger.IsAttached || Environment.GetEnvironmentVariable("debug") != null )
-        {
-            Debug = true;
-        }
+        x.AssemblyContainingType<Program>();
+        x.WithDefaultConventions();
+        x.LookForRegistries();
+    });
+});
 
-        var host = WebHost.CreateDefaultBuilder()
-            .UseKestrel()
-            .UseLamar()
-            .UseStartup<Startup>()
-            .UseUrls("http://*:8080/")
-            .Build();
-            
-        host.Run();
-    }
-}
+builder.WebHost
+    .ConfigureKestrel(x => x.ListenAnyIP(8080))
+    .ConfigureLogging((context, config) =>
+    {
+        config.ClearProviders();
+        config.AddSerilog();
+    });
+
+builder.Services.AddControllers();
+builder.Services.AddMemoryCache();
+
+var app = builder.Build();
+
+app.UseSwaggerUI(x =>
+{
+    x.RoutePrefix = "";
+    x.SwaggerEndpoint("/swagger.json", "MergeOpenApi Api v1");
+    x.ConfigObject.AdditionalItems["tagsSorter"] = "alpha";
+    x.ConfigObject.DefaultModelsExpandDepth = -1;
+    x.DocExpansion(DocExpansion.None);
+});
+
+app.UseRouting();
+app.UseHttpMetrics();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapMetrics();
+});
+
+app.Run();
+
+Log.CloseAndFlush();
