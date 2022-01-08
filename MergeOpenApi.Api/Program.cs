@@ -1,6 +1,3 @@
-using Serilog;
-using Serilog.Formatting.Json;
-
 var builder = WebApplication.CreateBuilder(args);
 
 Log.Logger = new LoggerConfiguration()
@@ -40,20 +37,20 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-app.UseRouting();
-app.UseHttpMetrics();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-    endpoints.MapMetrics();
-});
-
 app.UseSwagger(x => x.RouteTemplate = "/{documentName}.json");
 app.UseSwaggerUI(x =>
 {
     x.RoutePrefix = "";
     x.SwaggerEndpoint("/swagger.json", "MergeOpenApi Api v1");
     x.ConfigObject.DefaultModelsExpandDepth = -1;
+});
+
+app.UseRouting();
+app.UseHttpMetrics();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapMetrics();
 });
 
 app.Run();
